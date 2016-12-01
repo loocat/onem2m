@@ -1,7 +1,7 @@
 {
   "name": "onem2m",
-  "version": "0.1.0",
-  "description": "oneM2M constants and utiliies",
+  "version": "0.1.1",
+  "description": "oneM2M constants and utilities",
   "main": "index.js",
   "scripts": {
     "test": "echo 'Error: no test specified' && exit 1"
