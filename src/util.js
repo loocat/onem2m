@@ -9,6 +9,7 @@ var moment = require('moment');
 var util = require('util');
 var uuid = require('uuid');
 var name = require('./name');
+var code = require('./code');
 
 /**
  * 
@@ -32,7 +33,7 @@ var createRequestID = function () {
  * 
  */
 var createResourceID = function (typeCode) {
-  return util.format('%s-%s', name.getShort(this.getResourceType(typeCode)), uuid.v4());
+  return util.format('%s-%s', name.getShort(code.getResourceType(typeCode)), uuid.v4());
 }
 
 /**
@@ -61,7 +62,7 @@ var translateOperation = function (operationType, bindType) {
   }
 
   var toMqtt = function (op) {
-    return exports.getOperation(op);
+    return code.getOperation(op);
   }
 
   return (bindType && bindType.toLowerCase() === 'http' ? toHttp : toMqtt)(operationType);
@@ -232,9 +233,9 @@ var meanchild = function (src) {
  * determine Resource Addressing Method
  */
 var determineResourceAddressingMethod = function (addr) {
-  if (addr.match(/^\/[^\/]/)) return tables.resourceAddressingMethod.exchange('SP-Relative');
-  if (addr.match(/^\/\/[^\/]/)) return tables.resourceAddressingMethod.exchange('Absolute');
-  return tables.resourceAddressingMethod.exchange('CSE-Relative');
+  if (addr.match(/^\/[^\/]/)) return code.getResourceAddressingMethod('SP-Relative');
+  if (addr.match(/^\/\/[^\/]/)) return code.getResourceAddressingMethod('Absolute');
+  return code.getResourceAddressingMethod('CSE-Relative');
 }
 
 /**
@@ -243,10 +244,10 @@ var determineResourceAddressingMethod = function (addr) {
 var determineResourceAddressingType = function (addr, cseid, spid) {
   var ttt = getCSERelativeAddress(addr, cseid, spid).split('/');
   if (ttt.length > 1) {
-    return this.getDiscResType('structured');
+    return code.getDiscResType('structured');
   }
   else if (ttt.length === 1) {
-    return this.getDiscResType('unstructured');
+    return code.getDiscResType('unstructured');
   }
   return null;
 }
@@ -257,16 +258,16 @@ var determineResourceAddressingType = function (addr, cseid, spid) {
 var getCSERelativeAddress = (addr, cseid, spid) => {
   var ttt = addr.split('/');
   var method = determineResourceAddressingMethod(addr); 
-  if (method === this.getResourceAddressingMethod('CSE-Relative')) {
+  if (method === code.getResourceAddressingMethod('CSE-Relative')) {
     if (ttt[0] !== cseid) addr = cseid + '/' + addr;
     return addr;
   } 
-  if (method === this.getResourceAddressingMethod('SP-Relative')) {
+  if (method === code.getResourceAddressingMethod('SP-Relative')) {
     if (ttt[0].length === 0 && ttt[1] === cseid) {
       return addr.replace(/^\//, '');
     }
   } 
-  if (method === this.getResourceAddressingMethod('Absolute')) {
+  if (method === code.getResourceAddressingMethod('Absolute')) {
     if (ttt[2] === spid && ttt[3] === cseid) {
       return ttt.slice(3).join('/');
     } 
@@ -282,16 +283,16 @@ var getCSERelativeAddress = (addr, cseid, spid) => {
 var getSPRelativeAddress = (addr, cseid, spid) => {
   var ttt = addr.split('/');
   var method = determineResourceAddressingMethod(addr); 
-  if (method === this.getResourceAddressingMethod('CSE-Relative')) {
+  if (method === code.getResourceAddressingMethod('CSE-Relative')) {
     if (ttt[0] !== cseid) addr = cseid + '/' + addr;
     return '/' + addr;
   } 
-  if (method === this.getResourceAddressingMethod('SP-Relative')) {
+  if (method === code.getResourceAddressingMethod('SP-Relative')) {
     if (ttt[0].length === 0 && ttt[1] === cseid) {
       return addr;
     }
   } 
-  if (method === this.getResourceAddressingMethod('Absolute')) {
+  if (method === code.getResourceAddressingMethod('Absolute')) {
     if (ttt[2] === spid && ttt[3] === cseid) {
       return '/' + ttt.slice(3).join('/');
     } 
@@ -307,16 +308,16 @@ var getSPRelativeAddress = (addr, cseid, spid) => {
 var getAbsoluteAddress = (addr, cseid, spid) => {
   var ttt = addr.split('/');
   var method = determineResourceAddressingMethod(addr); 
-  if (method === this.getResourceAddressingMethod('CSE-Relative')) {
+  if (method === code.getResourceAddressingMethod('CSE-Relative')) {
     if (ttt[0] !== cseid) addr = cseid + '/' + addr;
     return '//' + spid + '/' + addr;
   } 
-  if (method === this.getResourceAddressingMethod('SP-Relative')) {
+  if (method === code.getResourceAddressingMethod('SP-Relative')) {
     if (ttt[0].length === 0 && ttt[1] === cseid) {
       return '//' + spid + addr;
     }
   } 
-  if (method === this.getResourceAddressingMethod('Absolute')) {
+  if (method === code.getResourceAddressingMethod('Absolute')) {
     if (ttt[2] === spid && ttt[3] === cseid) {
       return addr;
     } 
@@ -385,11 +386,11 @@ var path2addr = (path) => {
 var addr2path = (addr) => {
   // see clause 6.2.2.1 Path component (oneM2M TS-0009-V2.6.1)
   var pre = ((ram) => {
-    // if (ram === this.getResourceAddressingMethod('CSE-Relative')) return '/' + myID + '/';
-    if (ram === this.getResourceAddressingMethod('CSE-Relative')) return '/';
-    else if (ram === this.getResourceAddressingMethod('SP-Relative')) return '/~' ;
-    else if (ram === this.getResourceAddressingMethod('Absolute')) return '/_';
-  }) (this.determineResourceAddressingMethod(addr));
+    // if (ram === code.getResourceAddressingMethod('CSE-Relative')) return '/' + myID + '/';
+    if (ram === code.getResourceAddressingMethod('CSE-Relative')) return '/';
+    else if (ram === code.getResourceAddressingMethod('SP-Relative')) return '/~' ;
+    else if (ram === code.getResourceAddressingMethod('Absolute')) return '/_';
+  }) (determineResourceAddressingMethod(addr));
   return pre + addr;
 }
 
@@ -398,7 +399,7 @@ var addr2path = (addr) => {
  */
 var mime = (pri) => {
   var ser = pri.cty || 'json';
-  if (pri.op && pri.op === this.getOperation('Notify')) {
+  if (pri.op && pri.op === code.getOperation('Notify')) {
     dat = 'ntfy';
   }
   else {
