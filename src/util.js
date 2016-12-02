@@ -441,6 +441,7 @@ var log = (function () {
 //
 exports.isID = isID;
 exports.isStructured = isStructured;
+exports.createRequestID = createRequestID;
 exports.createResourceID = createResourceID;
 exports.translateOperation = translateOperation;
 exports.wrapMessage = wrapMessage;
