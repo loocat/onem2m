@@ -254,13 +254,7 @@ var determineResourceAddressingMethod = function (addr) {
  */
 var determineResourceAddressingType = function (addr, cseid, spid) {
   var ttt = getCSERelativeAddress(addr, cseid, spid).split('/');
-  if (ttt.length > 1) {
-    return code.getDiscResType('structured');
-  }
-  else if (ttt.length === 1) {
-    return code.getDiscResType('unstructured');
-  }
-  return null;
+  return code.getDiscResType(isStructured(ttt) ? 'structured' : 'unstructured');
 }
 
 /**
