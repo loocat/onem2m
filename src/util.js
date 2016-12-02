@@ -11,6 +11,17 @@ var uuid = require('uuid');
 var name = require('./name');
 var code = require('./code');
 
+var rid = /^[a-z]+-[0-9a-f]{8}-?[0-9a-f]{4}-?[0-5][0-9a-f]{3}-?[089ab][0-9a-f]{3}-?[0-9a-f]{12}$/i;
+
+var isID = (text) => {
+  return rid.test(text);
+}
+
+var isStructured = (path) => {
+  var arr = path.split('/');
+  return (arr.length !== 1 || !isID(arr[0]));
+}
+
 /**
  * 
  */
@@ -428,7 +439,8 @@ var log = (function () {
 //
 // utilities
 //
-exports.createRequestID = createRequestID;
+exports.isID = isID;
+exports.isStructured = isStructured;
 exports.createResourceID = createResourceID;
 exports.translateOperation = translateOperation;
 exports.wrapMessage = wrapMessage;
