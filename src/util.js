@@ -3,7 +3,6 @@
  * @copyright 2016, loocat.
  */
 
-// const crypto = require('crypto');
 var xml2js = require('xml2js');
 var moment = require('moment');
 var util = require('util');
@@ -103,7 +102,7 @@ var attributize = function (pc, cty, level) {
     }
   };
 
-  if (tr[cty] && isSimple(typeof pc) === false) {
+  if (tr[cty] && pc && isSimple(typeof pc) === false) {
     if (Object.keys(pc).length > 0) {
       attributes.forEach(tr[cty]);
       Object.keys(pc).forEach((key) => {

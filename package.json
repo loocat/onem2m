@@ -1,6 +1,6 @@
 {
   "name": "onem2m",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "oneM2M constants and utilities",
   "main": "index.js",
   "scripts": {
