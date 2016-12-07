@@ -476,7 +476,7 @@ var longShort = {
     roleIDsFromACPs: 'rfa',
     tokenIDs: 'tids',
     dynamicACPInfo: 'dai',
-    grantedPriveleges: 'gp',
+    grantedPrivileges: 'gp',
     privilegesLifetime: 'pl',
     tokens: 'tkns',
     securityInfoType: 'sit',
