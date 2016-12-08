@@ -39,31 +39,31 @@ var longShort = {
     "contentOffset": "cnot"
   },
 
-  // FilterCrieteria: {
-  //   // Table 6.3.5.8-1: FILTER_CRIETERIA
-  //   "createdBefore": "crb",
-  //   "createdAfter": "cra",
-  //   "modifiedSince": "ms",
-  //   "unmodifiedSince": "us",
-  //   "stateTagSmaller": "sts",
-  //   "stateTagBigger": "stb",
-  //   "expireBefore": "exb",
-  //   "expireAfter": "exa",
-  //   "labels": "lbl",
-  //   "resourceType": "ty",
-  //   "sizeAbove": "sza",
-  //   "sizeBelow": "szb",
-  //   "contentType": "cty",
-  //   "attribute": "atr",
-  //   "filterUsage": "fu",
-  //   "limit": "lim",
-  //   semanticsFilter: 'smf',
-  //   filterOperation: 'fo',
-  //   contentFilterSyntax: 'cfs',
-  //   contentFilterQuery: 'cqf',
-  //   level: 'lvl',
-  //   offset: 'ofst'
-  // },
+  FilterCrieteria: {
+    // Table 6.3.5.8-1: FILTER_CRIETERIA
+    createdBefore: "crb",
+    createdAfter: "cra",
+    modifiedSince: "ms",
+    unmodifiedSince: "us",
+    stateTagSmaller: "sts",
+    stateTagBigger: "stb",
+    expireBefore: "exb",
+    expireAfter: "exa",
+    labels: "lbl",
+    resourceType: "ty",
+    sizeAbove: "sza",
+    sizeBelow: "szb",
+    contentType: "cty",
+    attribute: "atr",
+    filterUsage: "fu",
+    limit: "lim",
+    semanticsFilter: 'smf',
+    filterOperation: 'fo',
+    contentFilterSyntax: 'cfs',
+    contentFilterQuery: 'cqf',
+    level: 'lvl',
+    offset: 'ofst'
+  },
 
   PrimitiveRootElements: {
     // table 8.2.2-2: PRIMITIVE_ROOT_ELEMENTS
