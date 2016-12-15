@@ -286,6 +286,17 @@ var tables = {
   }),
 
   //
+  // see clause 6.3.4.2.19 m2m:notificationEventType
+  //
+  eventNotificationCriteria: new CodeTable({
+    Update_of_Resource: 1,
+    Delete_of_Resource: 2,
+    Create_of_Direct_Child_Resource: 3,
+    Delete_of_Direct_Child_Resource: 4,
+    Retrieve_of_Container_Resource_With_No_Child_Resource: 5
+  }),
+
+  //
   // see clause 6.3.4.2.25 m2m:eventType (oneM2M TS-0004-V2.7.1)
   //
   eventType: new CodeTable({
@@ -311,6 +322,11 @@ var tables = {
     'CSE-Relative': 1,
     'SP-Relative': 2,
     'Absolute': 3
+  }),
+
+  sortType: new CodeTable({
+    'Ascending': 1,
+    'Descending': 2
   })
 };
 
@@ -389,8 +405,10 @@ exports.getResourceType = tables.resourceType.exchange;
 exports.getResultContent = tables.resultContent.exchange;
 exports.getFilterUsage = tables.filterUsage.exchange;
 exports.getDiscResType = tables.discResType.exchange;
+exports.getNotificationEventCriteria = tables.eventNotificationCriteria.exchange;
 exports.getEventType = tables.eventType.exchange;
 exports.getResourceAddressingMethod = tables.resourceAddressingMethod.exchange;
+exports.getSortType = tables.sortType.exchange;
 
 //
 // utilities
