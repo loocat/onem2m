@@ -358,7 +358,7 @@ var processData = function (data, callback) {
           var ttt = result[ii]['$'];
           Object.keys(ttt).forEach((key) => {
             if (key !== 'xmlns:m2m') {
-              msg[key.replace('^m2m', '')] = ttt[key]; 
+              result[ii][key.replace('^m2m', '')] = ttt[key]; 
             }
           })
           delete result[ii]['$'];
