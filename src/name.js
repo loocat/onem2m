@@ -629,7 +629,7 @@ for (var category in longShort) {
   shortLong[category] = {};
   for (var longName in longShort[category]) {
     var shortName = longShort[category][longName];
-    if (shortLong[category].hasOwnProperty(shortName)) {
+    if (shortName in shortLong[category]) {
       throw new Error('[ERR] duplicated short name representation: ' + shortName);
     }
     shortLong[category][shortName] = longName;
@@ -644,7 +644,7 @@ for (var category in longShort) {
   flatShort[category] = {};
   for (var longName in longShort[category]) {
     var flatName = longName.replace('-', '').toLowerCase();
-    if (flatLong[category].hasOwnProperty(flatName)) {
+    if (flatName in flatLong[category]) {
       throw new Error('[ERR] duplicated flat name representation: ' + flatName);
     }
     flatLong[category][flatName] = longName;
@@ -694,13 +694,13 @@ exports.exchange = function (name, cats) {
   cats = rebuildCategoryList(cats);
   for (var i = 0; i < cats.length; ++i) {
     var cat = cats[i];
-    if (!shortLong.hasOwnProperty(cat)) {
+    if (!(cat in shortLong)) {
       throw ('[ERR:exchange] unknown category name: ' + cat);
     }
-    if (shortLong[cat].hasOwnProperty(name)) {
+    if (name in shortLong[cat]) {
       return shortLong[cat][name];
     }
-    else if (longShort[cat].hasOwnProperty(name)) {
+    else if (name in longShort[cat]) {
       return longShort[cat][name];
     }
   }
@@ -719,13 +719,13 @@ exports.getShort = function (name, cats) {
   cats = rebuildCategoryList(cats);
   for (var i = 0; i < cats.length; ++i) {
     var cat = cats[i];
-    if (!shortLong.hasOwnProperty(cat)) {
+    if (!(cat in shortLong)) {
       throw ('[ERR:getShort] unknown category name: ' + cat);
     }
-    if (shortLong[cat].hasOwnProperty(name)) {
+    if (name in shortLong[cat]) {
       return name;
     }
-    else if (longShort[cat].hasOwnProperty(name)) {
+    else if (name in longShort[cat]) {
       return longShort[cat][name];
     }
   }
@@ -744,13 +744,13 @@ exports.getLong = function (name, cats) {
   cats = rebuildCategoryList(cats);
   for (var i = 0; i < cats.length; ++i) {
     var cat = cats[i];
-    if (!longShort.hasOwnProperty(cat)) {
+    if (!(cat in longShort)) {
       throw new Error('[ERR:getLong] unknown category name: ' + cat);
     }
-    if (longShort[cat].hasOwnProperty(name)) {
+    if (name in longShort[cat]) {
       return name;
     }
-    else if (shortLong[cat].hasOwnProperty(name)) {
+    else if (name in shortLong[cat]) {
       return shortLong[cat][name];
     }
   }
@@ -769,10 +769,10 @@ exports.flatToLong = function (name, cats) {
   cats = rebuildCategoryList(cats);
   for (var i = 0; i < cats.length; ++i) {
     var cat = cats[i];
-    if (!flatLong.hasOwnProperty(cat)) {
+    if (!(cat in flatLong)) {
       throw new Error('[ERR:flatToLong] unknown category name: ' + cat);
     }
-    if (flatLong[cat].hasOwnProperty(name)) {
+    if (name in flatLong[cat]) {
       return flatLong[cat][name];
     }
   }
@@ -791,10 +791,10 @@ exports.flatToShort = function (name, cats) {
   cats = rebuildCategoryList(cats);
   for (var i = 0; i < cats.length; ++i) {
     var cat = cats[i];
-    if (!flatShort.hasOwnProperty(cat)) {
+    if (!(cat in flatShort)) {
       throw new Error('[ERR:flatToLong] unknown category name: ' + cat);
     }
-    if (flatShort[cat].hasOwnProperty(name)) {
+    if (name in flatShort[cat]) {
       return flatShort[cat][name];
     }
   }
