@@ -349,14 +349,15 @@ var processData = function (data, callback) {
           delete msg[ii];
         }
       }
+      msg.cty = 'json';
     }
     else {
       msg = {};
       for (var ii in result) {
         log.debug(ii);
-        if (Object.hasOwnProperty.call(result[ii], '$')) {
+        if ('$' in result[ii]) {
           var ttt = result[ii]['$'];
-          Object.keys(ttt).forEach((key) => {
+          Object.keys(ttt).map((key) => {
             if (key !== 'xmlns:m2m') {
               result[ii][key.replace('^m2m', '')] = ttt[key]; 
             }
@@ -365,6 +366,7 @@ var processData = function (data, callback) {
         }
         msg[ii.replace('m2m:', '')] = result[ii];
       }
+      msg.cty = 'xml';
     }
     
     // console.log(JSON.stringify(msg, null, ' '));
